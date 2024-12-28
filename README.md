@@ -1,69 +1,98 @@
-By default, the power plant is the only fire starting location and the parameters are set to:  
-canWaterDrop = False  
-waterPosLowerBound = burningPowerPlant  
-waterPosUpperBound = burntPowerPlant  
-canWindAffect = False  
-windDirection = 'N'  
-numberGenerations = 200.  
-  
-  
-  
-ADJUSTING FIRE START LOCATIONS  
-To be able to adjust the starting point of a fire, you will need to enter the caconfig.py file and adjust the initial starting state for the incinerator and/or the power plant.  
+# Fire Simulation Model
 
-To do this for the incinerator, edit the number inside self.states[] on line 65 to be one of the following:  
-	- 81 (meaning a fire does not start at the incinerator)
-	- 82 (meaning a fire does start at the incinerator)
+This repository contains a simulation model for fire spread and mitigation using various adjustable parameters.
 
-Similarly, for the power plant, you will need to edit the number inside self.states[] on line 68 to be one of the following:    
-	- 69 (meaning a fire does not start at the power plant)
-	- 70 (meaning a fire does start at the power plant)
-  
-  
-  
-ADJUSTING FOR WIND DIRECTION  
-For the model to be affected by a wind direction, the boolean canWindAffect on line 63 (fire2d.py) will need to be set to true, as when it is false no wind will affect the model.  
+---
 
-If canWindAffect = True, a wind direction of N, E, S or W can be assigned to the variable windDirection on line 64. This will result in the fire being more likely to spread in its respective wind direction.   
+## Default Settings
+By default, the power plant is the only fire starting location, and the parameters are set as follows:
+- `canWaterDrop`: `False`
+- `waterPosLowerBound`: `burningPowerPlant`
+- `waterPosUpperBound`: `burntPowerPlant`
+- `canWindAffect`: `False`
+- `windDirection`: `'N'`
+- `numberGenerations`: `200`
 
-For example, if windDirection = 'N' then the fire is more likely to spread in a northerly direction and less likely to spread in a southerly direction.  
-  
-  
+---
 
-ADJUSTING FOR A WATER DROP  
-To be able to drop a pre-determined amount of water (an area of 12.5km squared), you will need to enter the fire2d.py and change the boolean canWaterDrop on line 58 (fire2d.py) to be true, as when it is false this function will not be actioned.  
+## Adjusting Fire Start Locations
+To adjust the starting point of a fire, modify the `caconfig.py` file:
 
-When canWaterDrop = True, the condition for when and where this will happen can be adjusted using waterPosLowerBound and waterPosUpperBound on lines 59 and 60.   
+### Incinerator
+Edit the number inside `self.states[]` on line 65 to:
+- `81`: Fire does **not** start at the incinerator.
+- `82`: Fire **does** start at the incinerator.
 
-For example, if waterPosLowerBound = burningPowerPlant and waterPosUpperBound = burntPowerPlant then a water drop will occur at the location of the power plant when this begins to burn. If you want a water drop to occur after 3 generations of the power plant being burning, then waterPosLowerBound = burningPowerPlant + 2.  
+### Power Plant
+Edit the number inside `self.states[]` on line 68 to:
+- `69`: Fire does **not** start at the power plant.
+- `70`: Fire **does** start at the power plant.
 
-Additionally, to better control the location for the water drop, you can change the x and y values within water_drop(x, y) on line 103 (fire2d.py) accordingly.  
+---
 
-  
-  
-GENERATING RESULTS AFFECTED BY WIND  
-To generate all of our results related to wind directions, you will need to do the following:  
-	- Ensure any variables that you do not need to change are set to their defaults as listed above.  
-	- For when the fire starts at either the incinerator or power plant, follow the directions in section ADJUSTING FIRE START LOCATIONS to start the fire at the correct location.  
-	- For all wind directions, follow the directions in section ADJUSTING FOR WIND DIRECTION to accurately set the wind direction  
-	- We recommend adjusting the variable numberGenerations on line 68 (fire2d.py) depending on the wind direction to ensure repeatability and for the fire spread to be witnessed reaching the town by using these values:  
-		- If windDirection = 'N', set numberGenerations = 550
-		- If windDirection = 'E', set numberGenerations = 400
-		- If windDirection = 'S', set numberGenerations = 250
-		- If windDirection = 'W', set numberGenerations = 525
+## Adjusting for Wind Direction
+For the model to be affected by wind:
+1. Set `canWindAffect` (line 63 in `fire2d.py`) to `True`.
+2. Assign a wind direction (`'N'`, `'E'`, `'S'`, `'W'`) to `windDirection` on line 64.
 
+### Example:
+If `windDirection = 'N'`, the fire will spread more likely in a northerly direction and less likely in a southerly direction.
 
+---
 
-GENERATING RESULTS AFFECTED BY WATER BEING DROPPED
-To generate all of our results related to water being dropped, you will need to do the following:
-	- Ensure any variables that you do not need to change are set to their defaults as listed above.
-	- For when the fire starts at either the incinerator or power plant, follow the directions in section ADJUSTING FIRE START LOCATIONS to start the fire at the correct location.
-	- For when the water drops near the power plant, follow the directions in section ADJUSTING FOR A WATER DROP using these values:
-		- waterPosLowerBound = burningPowerPlant + 2
-		- waterPosUpperBound = burntPowerPlant
-		- water_drop(x + 2, y + 2)
-	- For when the water drops the near the incinerator, follow the directions in section ADJUSTING FOR A WATER DROP using these values:
-		- waterPosLowerBound = burningIncinerator + 4
-		- waterPosUpperBound = burntIncinerator
-		- water_drop(x + 4, y - 2)
-	- In both of these, the lower bound is increased to allow the fire to spread from the initial starting state.
+## Adjusting for a Water Drop
+To enable water drops:
+1. Set `canWaterDrop` (line 58 in `fire2d.py`) to `True`.
+2. Adjust `waterPosLowerBound` and `waterPosUpperBound` (lines 59 and 60) as needed.
+
+### Example:
+If:
+- `waterPosLowerBound = burningPowerPlant`
+- `waterPosUpperBound = burntPowerPlant`
+
+Then a water drop will occur at the power plant when it starts burning.
+
+To delay the water drop by 3 generations:
+- `waterPosLowerBound = burningPowerPlant + 2`
+
+### Location Adjustment:
+Modify `water_drop(x, y)` (line 103 in `fire2d.py`) to specify the exact coordinates.
+
+---
+
+## Generating Results Affected by Wind
+To generate results related to wind directions:
+1. Ensure default variables are correctly set.
+2. Adjust fire start locations as per [Adjusting Fire Start Locations](#adjusting-fire-start-locations).
+3. Configure wind directions as per [Adjusting for Wind Direction](#adjusting-for-wind-direction).
+4. Adjust `numberGenerations` (line 68 in `fire2d.py`) as follows:
+   - `windDirection = 'N'`: `numberGenerations = 550`
+   - `windDirection = 'E'`: `numberGenerations = 400`
+   - `windDirection = 'S'`: `numberGenerations = 250`
+   - `windDirection = 'W'`: `numberGenerations = 525`
+
+---
+
+## Generating Results Affected by Water Being Dropped
+To generate results related to water drops:
+1. Ensure default variables are correctly set.
+2. Adjust fire start locations as per [Adjusting Fire Start Locations](#adjusting-fire-start-locations).
+3. Configure water drop parameters as follows:
+
+### For Water Near the Power Plant:
+- `waterPosLowerBound = burningPowerPlant + 2`
+- `waterPosUpperBound = burntPowerPlant`
+- `water_drop(x + 2, y + 2)`
+
+### For Water Near the Incinerator:
+- `waterPosLowerBound = burningIncinerator + 4`
+- `waterPosUpperBound = burntIncinerator`
+- `water_drop(x + 4, y - 2)`
+
+In both cases, the lower bound is increased to allow the fire to spread from its initial state.
+
+---
+
+## Notes
+- Ensure all parameters are appropriately adjusted before running simulations to achieve desired results.
+- Document any changes made to the configuration files for reproducibility.
