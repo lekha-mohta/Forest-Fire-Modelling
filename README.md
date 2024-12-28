@@ -1,4 +1,4 @@
-By default, the power plant is the only fire starting location and the parameters are set to:
+By default, the power plant is the only fire starting location and the parameters are set to:  
 canWaterDrop = False
 waterPosLowerBound = burningPowerPlant
 waterPosUpperBound = burntPowerPlant
@@ -8,14 +8,14 @@ numberGenerations = 200.
 
 
 
-ADJUSTING FIRE START LOCATIONS
+ADJUSTING FIRE START LOCATIONS  
 To be able to adjust the starting point of a fire, you will need to enter the caconfig.py file and adjust the initial starting state for the incinerator and/or the power plant.
 
-To do this for the incinerator, edit the number inside self.states[] on line 65 to be one of the following: 
+To do this for the incinerator, edit the number inside self.states[] on line 65 to be one of the following:  
 	- 81 (meaning a fire does not start at the incinerator)
 	- 82 (meaning a fire does start at the incinerator)
 
-Similarly, for the power plant, you will need to edit the number inside self.states[] on line 68 to be one of the following:
+Similarly, for the power plant, you will need to edit the number inside self.states[] on line 68 to be one of the following:  
 	- 69 (meaning a fire does not start at the power plant)
 	- 70 (meaning a fire does start at the power plant)
 
